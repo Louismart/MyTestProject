@@ -1,14 +1,14 @@
 **/target/
-/target/
-*/target/*
-.classpath
-.project
-.settings
+                  /target/
+                  */target/*
+                  .classpath
+                  .project
+                  .settings
 
-# Package Files #
-*.jar
-*.war
-*.ear
+                  # Package Files #
+                  *.jar
+                  *.war
+                  *.ear
 
-*.iml
-*.idea
+                  *.iml
+                  *.idea

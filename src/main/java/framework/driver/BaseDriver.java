@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -13,12 +14,18 @@ import java.util.List;
 public class BaseDriver {
 
     private WebDriver webDriver;
-    private BaseWaiter baseWaiter;
-    private int defaultWaitIntseconds;
 
-    public BaseDriver(WebDrivers driver, int defaultWaitIntseconds) {
-        this.defaultWaitIntseconds = defaultWaitIntseconds;
+    private BaseWaiter baseWaiter;
+
+    private  int defaultWaitIntSeconds;
+
+
+    public BaseDriver(WebDrivers driver, int defaultWaitIntSeconds) {
+        this.defaultWaitIntSeconds = defaultWaitIntSeconds;
         this.webDriver = DriverFactory.GetDriver(driver);
+        this.baseWaiter = new BaseWaiter(new WebDriverWait(webDriver, defaultWaitIntSeconds));
+
+
     }
 
     public WebDriver getWebDriver() {
@@ -28,15 +35,16 @@ public class BaseDriver {
     public BaseWaiter getBaseWaiter() {
         return baseWaiter;
     }
-
-    public <T extends BaseElement> T findElement(Class<T> clazz, By locator) {
-        WebElement webElement = (WebElement) baseWaiter.getWait().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+    //
+    public <T extends BaseElement> T findElement(Class<T> clazz, By locator){
+        WebElement webElement = baseWaiter.getWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
         return createElement(clazz, webElement, locator);
     }
 
-    public <T extends BaseElement> List<T> findElements(Class<T> clazz, final By locator) {
+    public  <T extends  BaseElement> List<T> findElements(Class<T> clazz, final By locator){
         List<WebElement> elements = baseWaiter.getWait().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
-        if (elements.size() > 0) {
+        if (elements.size()> 0)
+        {
             List<T> list = new ArrayList<>();
             for (WebElement baseElement : elements) {
                 T element = createElement(clazz, baseElement, locator);

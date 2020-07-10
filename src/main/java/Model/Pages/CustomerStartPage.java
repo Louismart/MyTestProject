@@ -6,6 +6,7 @@ import framework.pages.BaseStartPage;
 import org.openqa.selenium.By;
 
 public class CustomerStartPage extends BaseStartPage {
+
     private static By searchFieldLocator = By.id("search-input");
 
     private static By searchDropDownLocator = By.id("search-column");

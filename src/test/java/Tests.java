@@ -30,39 +30,41 @@ public class Tests {
         testedPage.openUrl();
     }
 
-
+//1. Search for Customer by Name
     @Test
     public void userIsAbleToSearchByName() {
-        //act
+
         String searchRequest = "Bon";
         testedPage.search().clearString().sendString(searchRequest);
-        //arrange
+
         String searchName = testedPage.customerTable().rows().get(0).cells().get(1).visibleText();
-        //assert
+
         Assert.assertTrue(searchName.contains(searchRequest));
     }
 
+    // 2. Search for Customer by Name with match case
     @Test
     public void userIsAbleToSearchByNameMatchCase() {
-        //act
+
         String searchRequest = "bon";
         testedPage.search().clearString().sendString(searchRequest);
         testedPage.checkbox().check();
-        //arrange
+
         String tableResult = testedPage.tableResume().visibleText();
-        //assert
+
         Assert.assertTrue(tableResult.startsWith("Showing 0"));
     }
 
+    //3. Search for Customer by City
     @Test
     public void userIsAbleToSearchCustomerByCity() {
-        //act
+
         String searchCity = "Belfast";
         testedPage.search().clearString().sendString(searchCity);
         testedPage.dropDown().selectByText("City");
-        //arrange
+
         String tableCityResult = testedPage.customerTable().rows().get(0).cells().get(3).visibleText();
-        //assert
+
         Assert.assertTrue(tableCityResult.contains(searchCity));
     }
 

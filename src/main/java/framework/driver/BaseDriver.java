@@ -35,7 +35,7 @@ public class BaseDriver {
     public BaseWaiter getBaseWaiter() {
         return baseWaiter;
     }
-    //
+
     public <T extends BaseElement> T findElement(Class<T> clazz, By locator){
         WebElement webElement = baseWaiter.getWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
         return createElement(clazz, webElement, locator);

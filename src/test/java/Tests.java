@@ -42,7 +42,7 @@ public class Tests {
         Assert.assertTrue(searchName.contains(searchRequest));
     }
 
-    // 2. Search for Customer by Name with match case
+    // 2. Search for Customer by Name with match case and check filter
     @Test
     public void userIsAbleToSearchByNameMatchCase() {
 

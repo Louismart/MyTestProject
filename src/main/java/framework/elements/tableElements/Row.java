@@ -10,12 +10,15 @@ import java.util.List;
 
 public class Row extends BaseElement {
 
+    //locator row
     private static By cellsLocator = By.xpath("td");
 
+    //constructor which inherited from BaseDriver
     public Row(BaseDriver baseDriver, WebElement webElement, By locator) {
         super(baseDriver, webElement, locator);
-    }
 
+    }
+// return list of elements from cells refered to TextLableElement class
     public List<TextLabelElement> cells(){
         return findElements(TextLabelElement.class, cellsLocator);
     }

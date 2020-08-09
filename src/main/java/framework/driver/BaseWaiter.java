@@ -6,16 +6,18 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.NoSuchElementException;
 
-public class BaseWaiter {
+public class BaseWaiter {  //Wrapper
     private WebDriverWait wait;
 
+    //Class constructor
     public BaseWaiter(WebDriverWait wait) {
         this.wait = wait;
+        //to ignore flagged exceptions
         wait.ignoring(NotFoundException.class);
         wait.ignoring(StaleElementReferenceException.class);
         wait.ignoring(NoSuchElementException.class);
     }
-
+//Getter
     public WebDriverWait getWait() {
         return wait;
     }

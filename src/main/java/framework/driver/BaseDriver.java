@@ -24,7 +24,7 @@ public class BaseDriver {
     public BaseDriver(WebDrivers driver, int defaultWaitIntSeconds) {
         this.defaultWaitIntSeconds = defaultWaitIntSeconds;
         this.webDriver = DriverFactory.GetDriver(driver);  // refer to driverFactory
-        this.baseWaiter = new BaseWaiter(new WebDriverWait(webDriver, defaultWaitIntSeconds));//why instance creation?
+        this.baseWaiter = new BaseWaiter(new WebDriverWait(webDriver, defaultWaitIntSeconds));
 
 
     }

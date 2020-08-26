@@ -1,4 +1,4 @@
-package framework.driver;
+package automationTestFramework.pages;
 
 import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.NoSuchElementException;
 
 public class BaseWaiter {
+
     private WebDriverWait wait;
 
     //Class constructor
@@ -17,7 +18,7 @@ public class BaseWaiter {
         wait.ignoring(StaleElementReferenceException.class);
         wait.ignoring(NoSuchElementException.class);
     }
-//Getter
+    //Getter
     public WebDriverWait getWait() {
         return wait;
     }

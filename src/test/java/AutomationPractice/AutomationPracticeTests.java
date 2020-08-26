@@ -6,10 +6,7 @@ import automationTestFramework.pages.CustomerPage;
 import automationTestFramework.pages.HomePage;
 import automationTestFramework.pages.ResultPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -18,6 +15,7 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static automationTestFramework.Variables.getUrl;
@@ -65,9 +63,69 @@ Bottom menu: NewsLatter, EmailInputField
         WebElement contactUsLocator = wait.until(ExpectedConditions.visibilityOfElementLocated(CustomerPage.contactUsLocator));
         WebElement signInLocator = wait.until(ExpectedConditions.visibilityOfElementLocated(CustomerPage.signInLocator));
         WebElement logoLocator = wait.until(ExpectedConditions.visibilityOfElementLocated(CustomerPage.logoLocator));
-        WebElement shoppingCardLocator = wait.until(ExpectedConditions.visibilityOfElementLocated(CustomerPage.shoppingCard));
+        WebElement shoppingCardLocator = wait.until(ExpectedConditions.visibilityOfElementLocated(CustomerPage.shoppingCardLocator));
         WebElement womanDropDownButtonInLocator = wait.until(ExpectedConditions.visibilityOfElementLocated(CustomerPage.womanDropDownButtonLocator));
 
+        Assert.assertTrue(isElementvisibleBy(CustomerPage.searchFieldLocator) && isElementvisibleBy(CustomerPage.contactUsLocator), "Verifying visibility of searchFieldLocator");
+/*
+BaseElement{
+
+Consturtor:
+BaseElement(driver, waiter, locator){
+bla bla
+}
+
+public boolean isVisible(){
+try{
+            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        }
+        catch (TimeoutException ex){
+            return  false;
+        }
+        return true;
+}
+}
+
+TextLabel extends BaseElement
+
+consrtuctor
+public TexxLabel(driver, waiter, locator){
+super(driver, waiter, locator)
+}
+
+}
+PageObjXXX{
+locators
+loc1d
+loc12
+loc13
+loc14
+
+Constructor
+PageObjXxx(driver, i chto nado)
+
+
+
+public TextLabel lableKakojto = new TextLabel(driver, locator1)
+public TextLabel lableKakojto2 = new TextLabel(driver, locator2)
+
+public boolean IsLoaded(){
+return lableKakojto.isVisible() && return lableKakojto.isVisible() &&
+lableKakojto2.IsVisible()
+}
+
+
+
+@Test
+sdjkfhailsugdhas(){
+PageObjXxx xxx = new PageObjXxx(driver, i chto nado)
+Assert.asssertTrue(xxx.IsLoaded());
+}
+
+
+
+}
+ */
     }
 
     @Test
@@ -76,23 +134,53 @@ Bottom menu: NewsLatter, EmailInputField
 Verify is button is selected by default and list of all elements greater than 0
        */
         //WebDriverWait wait = new WebDriverWait(driver,20);
-        WebElement popularButton1 = driver.findElement(CustomerPage.popularButton);
+        WebElement popularButton1 = driver.findElement(CustomerPage.popularButtonLocator);
 
-        if (popularButton1.isSelected()) {
+
+
+        Assert.assertTrue(popularButton1.isSelected(), "Verifying if dskfh selected");
+
+
+       if (popularButton1.isSelected()) {
             System.out.println("Popular button is selected by default");
         } else {
-            System.out.println("Popular button is not selected");
+           System.out.println("Popular button is not selected");
+       }
        //WebElement popularButtonClick = wait.until(ExpectedConditions.visibilityOfElementLocated(CustomerPage.popularButton));
        popularButton1.click();
 
             //popularButton1.click();
-  }
+
         boolean value = false;
 
-        if (driver.findElements(CustomerPage.popularButton).size() > 0) {
+        if (driver.findElements(CustomerPage.popularButtonLocator).size() > 0) {
             value = true;
         }
         System.out.println(value);
+
+    }
+
+    @Test
+    public void userVerifyButtonPopularProductsection2() {
+        WebDriverWait wait = new WebDriverWait(driver,20);
+
+        WebElement buttonsSection = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("home-page-tabs")));
+        List<WebElement> buttons = buttonsSection.findElements(By.xpath("li"));
+        Assert.assertTrue(buttons.size() > 1, "Verifying if elelemnts Pop and Best se exists on Page" );
+
+        WebElement popular = buttons.get(0);
+        WebElement bestSellers = buttons.get(1);
+        Assert.assertTrue(popular.getText().contains("POPULAR"));
+        Assert.assertTrue(bestSellers.getText().contains("BEST SELLERS"));
+        Assert.assertTrue(popular.getAttribute("class").equals("active"), "Verifying if Popular is active");
+        Assert.assertFalse(bestSellers.getAttribute("class").equals("active"), "Verifying if bestSellers is not active");
+        bestSellers.click();
+        Assert.assertFalse(popular.getAttribute("class").equals("active"), "Verifying if Popular is not active");
+        Assert.assertTrue(bestSellers.getAttribute("class").equals("active"), "Verifying if bestSellers is active");
+        Assert.assertTrue(popular.getText().contains("POPULAR"));
+        Assert.assertTrue(bestSellers.getText().contains("BEST SELLERS"));
+
+
 
     }
 
@@ -102,10 +190,10 @@ Verify is button is selected by default and list of all elements greater than 0
         Click the button and verify than list of elements is greater than 0
          */
 
-        WebElement bestSellers = driver.findElement(CustomerPage.bestSellersButton);
+        WebElement bestSellers = driver.findElement(CustomerPage.bestSellersButtonLocator);
         boolean value2 = false;
 
-        if (driver.findElements(CustomerPage.bestSellersButton).size() > 0) {
+        if (driver.findElements(CustomerPage.bestSellersButtonLocator).size() > 0) {
             value2 = true;
         }
         bestSellers.click();
@@ -132,6 +220,16 @@ Verify is button is selected by default and list of all elements greater than 0
     public void tearDown() {
         if(driver != null)
             driver.quit();
+    }
+
+    private boolean isElementvisibleBy(By locator){
+        try{
+            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        }
+        catch (TimeoutException ex){
+            return  false;
+        }
+        return true;
     }
 
 }

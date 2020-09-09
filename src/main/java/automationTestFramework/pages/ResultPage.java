@@ -10,10 +10,10 @@ import java.util.List;
 
 public class ResultPage {
 
-    public static WebDriver driver;
+    public WebDriver driver;
     private WebDriverWait wait;
     private WebElement element;
-    private By resultLocator = By.id("page");
+   // private By resultLocator = By.id("page");
 
 //    public ResultPage(WebDriver driver, WebElement element) {
 //        this.driver = driver;
@@ -58,7 +58,7 @@ public class ResultPage {
 ////        });
 
 
-    public static boolean isElementVisible(By by) {
+    public boolean isElementVisible(By by) {
 
             boolean value = false;
 

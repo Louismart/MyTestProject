@@ -16,7 +16,7 @@ public class Table extends BaseElement {
     public Table(BaseDriver baseDriver, WebElement webElement, By locator) {
         super(baseDriver, webElement, locator);
     }
-    //return list of elements with row and rowsLocator refered to BaseElement class
+    //return list of elements with row and rowsLocator referred to BaseElement class
     public List<Row> rows() {
         return findElements(Row.class, rowsLocator);
     }

@@ -3,8 +3,6 @@ package AutomationPractice;
 
 import automationTestFramework.Variables;
 import automationTestFramework.pages.CustomerPage;
-import automationTestFramework.pages.HomePage;
-import automationTestFramework.pages.ResultPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -16,29 +14,28 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static automationTestFramework.Variables.getUrl;
 
 public class AutomationPracticeTests {
 
     private ChromeDriver driver;
-    private WebDriverWait wait;
+    protected CustomerPage testPage;
+    //private WebDriverWait wait;
+    private String liClassLocator = "li";
 
 
-//    public AutomationPracticeTests(WebDriverWait wait) {
-//        this.wait = wait;
-//        this.wait = new WebDriverWait(this.driver,10);
 
     @BeforeClass
     public void baseTests () {
 
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
+        testPage = new CustomerPage(driver);
         //1. Open link http://automationpractice.com/index.php
         driver.get(getUrl);
         //Maximize or set size of browser window.
-        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+       // driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
         driver.manage().window().maximize();
     }
 
@@ -57,128 +54,55 @@ Bottom menu: NewsLatter, EmailInputField
 */
         getUrl = driver.getCurrentUrl();
         Assert.assertEquals(getUrl, Variables.expectedUrl);
+        Assert.assertTrue(testPage.isLoaded());
 
-        WebDriverWait wait = new WebDriverWait(driver,20);
-        WebElement searchFieldLocator = wait.until(ExpectedConditions.visibilityOfElementLocated(CustomerPage.searchFieldLocator));
-        WebElement contactUsLocator = wait.until(ExpectedConditions.visibilityOfElementLocated(CustomerPage.contactUsLocator));
-        WebElement signInLocator = wait.until(ExpectedConditions.visibilityOfElementLocated(CustomerPage.signInLocator));
-        WebElement logoLocator = wait.until(ExpectedConditions.visibilityOfElementLocated(CustomerPage.logoLocator));
-        WebElement shoppingCardLocator = wait.until(ExpectedConditions.visibilityOfElementLocated(CustomerPage.shoppingCardLocator));
-        WebElement womanDropDownButtonInLocator = wait.until(ExpectedConditions.visibilityOfElementLocated(CustomerPage.womanDropDownButtonLocator));
-
-        Assert.assertTrue(isElementvisibleBy(CustomerPage.searchFieldLocator) && isElementvisibleBy(CustomerPage.contactUsLocator), "Verifying visibility of searchFieldLocator");
-/*
-BaseElement{
-
-Consturtor:
-BaseElement(driver, waiter, locator){
-bla bla
+        //Without Page Object
+//        WebDriverWait wait = new WebDriverWait(driver,20);
+//        WebElement searchFieldLocator = wait.until(ExpectedConditions.visibilityOfElementLocated(CustomerPage.searchFieldLocator));
+//        WebElement contactUsLocator = wait.until(ExpectedConditions.visibilityOfElementLocated(CustomerPage.contactUsLocator));
+        // Assert.assertTrue(isElementvisibleBy(CustomerPage.searchFieldLocator) && isElementvisibleBy(CustomerPage.contactUsLocator), "Verifying visibility of searchFieldLocator");
 }
 
-public boolean isVisible(){
-try{
-            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-        }
-        catch (TimeoutException ex){
-            return  false;
-        }
-        return true;
-}
-}
-
-TextLabel extends BaseElement
-
-consrtuctor
-public TexxLabel(driver, waiter, locator){
-super(driver, waiter, locator)
-}
-
-}
-PageObjXXX{
-locators
-loc1d
-loc12
-loc13
-loc14
-
-Constructor
-PageObjXxx(driver, i chto nado)
-
-
-
-public TextLabel lableKakojto = new TextLabel(driver, locator1)
-public TextLabel lableKakojto2 = new TextLabel(driver, locator2)
-
-public boolean IsLoaded(){
-return lableKakojto.isVisible() && return lableKakojto.isVisible() &&
-lableKakojto2.IsVisible()
-}
-
-
-
-@Test
-sdjkfhailsugdhas(){
-PageObjXxx xxx = new PageObjXxx(driver, i chto nado)
-Assert.asssertTrue(xxx.IsLoaded());
-}
-
-
-
-}
- */
-    }
 
     @Test
     public void userVerifyButtonPopularProductsection() {
         /*
 Verify is button is selected by default and list of all elements greater than 0
        */
-        //WebDriverWait wait = new WebDriverWait(driver,20);
-        WebElement popularButton1 = driver.findElement(CustomerPage.popularButtonLocator);
+       // WebDriverWait wait = new WebDriverWait(driver,30);
+       // Assert.assertTrue(testPage.isLoaded(), "Verifying that page is loading");
+
+//        boolean result = testPage.loadedElementsAreGreaterThanZero();
+//        Assert.assertTrue(result, "Verifying if elements Pop and Best are loaded elements and greater than 0");
 
 
+//        WebElement buttonsSection = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("home-page-tabs")));
+//        List<WebElement> buttons = buttonsSection.findElements(By.xpath("li"));
+//        Assert.assertTrue(buttons.size() > 1, "Verifying if elelements Pop and Best se exists on Page" );
 
-        Assert.assertTrue(popularButton1.isSelected(), "Verifying if dskfh selected");
+        //List<WebElement>buttonsPop =
+        Assert.assertTrue(testPage.popularButton().get(0).getText().contains("POPULAR"), "Verifying that Popular element contains POPULAR");
+        //List<WebElement>buttonBest
+        Assert.assertTrue(testPage.bestSellersButton().get(0).getText().contains("BEST SELLERS"), "Verifying that Best Sellers element contains BEST SELLERS");
+//        WebElement popular = buttons.get(0);
+//        WebElement bestSellers = buttons.get(1);
+//        Assert.assertTrue(popular.getText().contains("POPULAR"));
+//        Assert.assertTrue(bestSellers.getText().contains("BEST SELLERS"));
+
+        List<WebElement> liActive = testPage.homePageTabsSection().get(0).findElements(By.xpath(liClassLocator));   //visibility of home-page-tabs   //findElements(By.xpath("li"));
+
+         //List<WebElement>liActive= homePageTabs.findElements(By.xpath("li"));
 
 
-       if (popularButton1.isSelected()) {
-            System.out.println("Popular button is selected by default");
-        } else {
-           System.out.println("Popular button is not selected");
-       }
-       //WebElement popularButtonClick = wait.until(ExpectedConditions.visibilityOfElementLocated(CustomerPage.popularButton));
-       popularButton1.click();
+         Assert.assertTrue(liActive.get(0).getAttribute("class").equals("active"), "Verifying if Popular is active");
+         Assert.assertFalse(liActive.get(1).getAttribute("class").equals("active"), "Verifying if Best Sellers is not active");
 
-            //popularButton1.click();
-
-        boolean value = false;
-
-        if (driver.findElements(CustomerPage.popularButtonLocator).size() > 0) {
-            value = true;
-        }
-        System.out.println(value);
-
-    }
-
-    @Test
-    public void userVerifyButtonPopularProductsection2() {
-        WebDriverWait wait = new WebDriverWait(driver,20);
-
-        WebElement buttonsSection = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("home-page-tabs")));
-        List<WebElement> buttons = buttonsSection.findElements(By.xpath("li"));
-        Assert.assertTrue(buttons.size() > 1, "Verifying if elelemnts Pop and Best se exists on Page" );
-
-        WebElement popular = buttons.get(0);
-        WebElement bestSellers = buttons.get(1);
-        Assert.assertTrue(popular.getText().contains("POPULAR"));
-        Assert.assertTrue(bestSellers.getText().contains("BEST SELLERS"));
-        Assert.assertTrue(popular.getAttribute("class").equals("active"), "Verifying if Popular is active");
-        Assert.assertFalse(bestSellers.getAttribute("class").equals("active"), "Verifying if bestSellers is not active");
-        bestSellers.click();
-        Assert.assertFalse(popular.getAttribute("class").equals("active"), "Verifying if Popular is not active");
-        Assert.assertTrue(bestSellers.getAttribute("class").equals("active"), "Verifying if bestSellers is active");
-        Assert.assertTrue(popular.getText().contains("POPULAR"));
-        Assert.assertTrue(bestSellers.getText().contains("BEST SELLERS"));
+//         Assert.assertFalse(testPage.bestSellersButton().get(0).getAttribute("class").equals("active"), "Verifying if bestSellers is not active");
+//        bestSellers.click();
+//        Assert.assertFalse(popular.getAttribute("class").equals("active"), "Verifying if Popular is not active");
+//        Assert.assertTrue(bestSellers.getAttribute("class").equals("active"), "Verifying if bestSellers is active");
+//        Assert.assertTrue(popular.getText().contains("POPULAR"));
+//        Assert.assertTrue(bestSellers.getText().contains("BEST SELLERS"));
 
 
 
@@ -222,15 +146,15 @@ Verify is button is selected by default and list of all elements greater than 0
             driver.quit();
     }
 
-    private boolean isElementvisibleBy(By locator){
-        try{
-            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-        }
-        catch (TimeoutException ex){
-            return  false;
-        }
-        return true;
-    }
+//    private boolean isElementvisibleBy(By locator){
+//        try{
+//            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+//        }
+//        catch (TimeoutException ex){
+//            return  false;
+//        }
+//        return true;
+//    }
 
 }
 

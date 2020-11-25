@@ -55,4 +55,11 @@ sdjkfhailsugdhas(){
 PageObjXxx xxx = new PageObjXxx(driver, i chto nado)
 Assert.asssertTrue(xxx.IsLoaded());
 }
+WebElement bestSellers = driver.findElement(CustomerPage.bestSellersButtonLocator);
+        boolean value2 = false;
 
+        if (driver.findElements(CustomerPage.bestSellersButtonLocator).size() > 0) {
+            value2 = true;
+        }
+        bestSellers.click();
+        System.out.println(value2);

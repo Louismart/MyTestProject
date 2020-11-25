@@ -37,7 +37,7 @@ public class BaseDriver {
         return baseWaiter;
     }
 
-//   Wrapper which return element + waiter, method inplementation at the bottom of this class
+////   Wrapper which return element + waiter, method inplementation at the bottom of this class
     public <T extends BaseElement> T findElement(Class<T> clazz, By locator){
         WebElement webElement = baseWaiter.getWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
         return createElement(clazz, webElement, locator);

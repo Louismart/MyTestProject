@@ -14,7 +14,7 @@ public class Button extends BaseElement {
 
 //    public void click()
 //    {
-//        baseDriver.getBaseWaiter().getWait()
+//                getBaseWaiter().getWait()
 //                  .until(ExpectedConditions.elementToBeClickable(element))
 //                  .click();
 //    }

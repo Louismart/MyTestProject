@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
@@ -12,8 +13,10 @@ public class CustomerPage {
 
     protected WebDriver driver;
     protected WebDriverWait wait;
+    protected WebElement element;
+    //private BaseWaiter baseWaiter;
 
-    private TextLabelElement searchField;
+    private TextInput searchField;
     private TextLabelElement buttonsSection;
     private TextLabelElement contactUs;
     private TextLabelElement signIn;
@@ -79,15 +82,18 @@ public class CustomerPage {
     public static By liActiveClassLocator = By.id("li");
 
 
-
-
     public CustomerPage(WebDriver driver) {
 
         this.driver = driver;
-        this.wait = new WebDriverWait(driver,10);
+        this.wait = new WebDriverWait(driver, 10);
     }
-    public TextLabelElement getSearchField() {
-        searchField = new TextLabelElement(driver, searchFieldLocator);
+
+//    public TextInput search() {
+//        return element(TextInput.class, searchFieldLocator);
+//    }
+
+    public TextInput getSearchField() {
+        searchField = new TextInput(driver, element, searchFieldLocator);
         return searchField;
     }
     public TextLabelElement getButtonsSection() {
@@ -104,11 +110,11 @@ public class CustomerPage {
     }
     public TextLabelElement getLogo() {
         logo = new TextLabelElement(driver, logoLocator);
-        return  logo;
+        return logo;
     }
     public TextLabelElement getShoppinCard() {
         shoppinCard = new TextLabelElement(driver, shoppingCardLocator);
-        return  shoppinCard;
+        return shoppinCard;
     }
     public TextLabelElement getWomanDropDown() {
         womanDropDown = new TextLabelElement(driver, womanDropDownButtonLocator);
@@ -116,7 +122,7 @@ public class CustomerPage {
     }
     public TextLabelElement getPhoneNumber() {
         phoneNumber = new TextLabelElement(driver, phoneNumberLocator);
-        return  phoneNumber;
+        return phoneNumber;
     }
     public TextLabelElement getDressesDropDown() {
         dressesDropDown = new TextLabelElement(driver, dressesDropDownLocator);
@@ -171,6 +177,10 @@ public class CustomerPage {
         liActive = new TextLabelElement(driver, liActiveClassLocator);
         return liActive;
     }
+//    public BaseWaiter getBaseWaiter() {
+//        baseWaiter = new BaseWaiter(wait );
+//        return baseWaiter;
+//    }
 
 
     public boolean isLoaded(){
@@ -185,6 +195,7 @@ public class CustomerPage {
                  // && getHomeSlidesDescription().isVisible();
                 //&& getDressesDropDown().isVisible();
     }
+
 
     public boolean loadedElementsAreGreaterThanZero() {
 
@@ -209,6 +220,14 @@ public class CustomerPage {
     public List<WebElement>liActiveClass() {
 
         return getLiActive().searchWebElements();
+    }
+
+//    public String visibleText() {
+//        return getBaseWaiter().getWait().until(ExpectedConditions.visibilityOf(element)).getText();
+//    }
+    public WebElement search() {
+
+        return getSearchField().searchWebElement();
     }
 
 

@@ -1,5 +1,9 @@
 package AutomationPractice;
 
+import RestAPITest.Payload;
+import RestAPITest.ReusableMethods;
+import io.restassured.path.json.JsonPath;
+import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -22,48 +26,104 @@ public class APITest {
     }
 
     @Test
-    public void addNewPlace() {
-        //PUT request
+    public static void addNewPlace() {
+        //POST request
 
+        String newPlaceResponse = given().log().all().queryParam("key", "qaclick123").header("Content-Type", "application/json")
+                .body(Payload.AddPlace()).when().post("maps/api/place/add/json").then().assertThat().statusCode(200)
+                .body("scope", equalTo("APP")).header("server", "Apache/2.4.18 (Ubuntu)").extract().response().asString();
+
+        //System.out.println("Response :" + response);
+        JsonPath js = ReusableMethods.newPlaceResponse(newPlaceResponse);
+        String placeId = js.getString("place_id");
+        System.out.println("Place Id: " + placeId);
+
+
+
+//   public void updatePlaceWithNewAddress()  PUT request
+        String newAddress = "70 winter walk, USA";
 
         given().log().all().queryParam("key", "qaclick123").header("Content-Type", "application/json")
                 .body("{\n" +
-                        "  \"location\": {\n" +
-                        "    \"lat\": -38.383494,\n" +
-                        "    \"lng\": 33.427362\n" +
-                        "  },\n" +
-                        "  \"accuracy\": 50,\n" +
-                        "  \"name\": \"Frontline house\",\n" +
-                        "  \"phone_number\": \"(+91) 983 893 3937\",\n" +
-                        "  \"address\": \"29, side layout, cohen 09\",\n" +
-                        "  \"types\": [\n" +
-                        "    \"shoe park\",\n" +
-                        "    \"shop\"\n" +
-                        "  ],\n" +
-                        "  \"website\": \"http://google.com\",\n" +
-                        "  \"language\": \"French-IN\"\n" +
-                        "}").when().post("maps/api/place/add/json").then().log().all().assertThat().statusCode(200)
-                .body("scope", equalTo("APP")).header("server", "Apache/2.4.18 (Ubuntu)");
+                        "\"place_id\":\"" + placeId + "\",\n" +
+                        "\"address\":\"" + newAddress + "\",\n" +
+                        "\"key\":\"qaclick123\"\n" +
+                        "}")
+                .when().put("maps/api/place/update/json")
+                .then().assertThat().log().all().statusCode(200).body("msg", equalTo("Address successfully updated"));
+
+
+//    public void getPlace() { GET - request
+        String getPlaceResponse = given().log().all().queryParam("key", "qaclick123")
+                .queryParam("place_id", placeId)
+                .when().get("maps/api/place/get/json")
+                .then()
+                .assertThat().log().all().statusCode(200).extract().response().asString();
+
+        JsonPath js1 = ReusableMethods.rawToJson(getPlaceResponse);
+        String actualAddress = js1.getString("address");
+
+        Assert.assertTrue(actualAddress.equals(newAddress));
+
     }
-   @Test
-   public void getPlace() {
-       given().log().all().queryParam("key", "qaclick123", "place_id", "29c57fb2f5e697c4e704fab04d4a23d3").when().get("maps/api/place/get/json").then()
-               .log().all().assertThat().statusCode(200);
+    @Test
+    public void complexJsonParse() {
+        JsonPath js = new JsonPath(Payload.coursePrice());
+
+        //Print No of courses returned by API
+        int count = js.getInt("courses.size()");
+        System.out.println(count);
+
+        //Print purchase amount
+        int totalAmount = js.getInt("dashboard.purchaseAmount");
+        System.out.println(totalAmount);
+
+        //Print title of the first course
+        String firstCourseTitle = js.getString("courses[0].title");
+        System.out.println(firstCourseTitle);
+        System.out.println();
+
+        // Print all course titles and their respective Price
+        //String allCorsesInfo = js.getString("courses");
+        for (int i = 0; i < count; i++) {
+            String courseTitles = js.get("courses[" + i + "].title");
+            int prices = js.get("courses[" + i + "].price");
+            int copies = js.get("courses[" + i + "].copies");
 
 
+            System.out.println("Course titles: " + " " + courseTitles + "; " + "price: " + prices + " " + " copies" + "; " + copies);
+        }
 
-   }
-   @Test
-   public void updatePlaceWithNewAddress() {
+        //Print No of copies sold by RPA Course
+        for (int i = 0; i < count; i++) {
+            String courseTitles = js.get("courses[" + i + "].title");
+            if (courseTitles.equalsIgnoreCase("RPA")) {
+                int copies = js.get("courses[" + i + "].copies");
+                System.out.println("The numbers of copies RPA Course is: " + " " + copies);
+            }
 
-       given().log().all().queryParam("key", "qaclick123").header("Content-Type", "application/json")
-               .body("{\n" +
-                       "\"place_id\":\"29c57fb2f5e697c4e704fab04d4a23d3\",\n" +
-                       "\"address\":\"70 winter walk, USA\",\n" +
-                       "\"key\":\"qaclick123\"\n" +
-                       "}")
-               .when().put("maps/api/place/update/json").then().log().all().assertThat().statusCode(200);
+        }
 
-   }
+    }
+
+    @Test
+    // Verify if Sum of all Course prices matches with Purchase Amount.
+    public void sumOfCourses() {
+
+        int sum = 0;
+        JsonPath js = new JsonPath(Payload.coursePrice());
+        int count = js.getInt("courses.size()");
+        for(int i = 0; i < count; i++) {
+            int price = js.get("courses["+i+"].price");
+            int copies = js.get("courses["+i+"].copies");
+            int amount = price * copies;
+            System.out.println("Amount is :" + " " + amount);
+            sum = sum + amount;
+
+        }
+        System.out.println(sum);
+        int purchaseAmount = js.get("dashboard.purchaseAmount");
+        Assert.assertEquals(sum, purchaseAmount);
+    }
 
 }

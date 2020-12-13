@@ -7,6 +7,10 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import static io.restassured.RestAssured.*;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
@@ -18,6 +22,9 @@ public class APITest {
     //when - Submit the API, http method
     //then - validate the response
 
+    //content of the file to String
+
+
 
     @BeforeTest
     public void beforeTests() {
@@ -26,11 +33,14 @@ public class APITest {
     }
 
     @Test
-    public static void addNewPlace() {
+    public static void addNewPlace() throws IOException {
         //POST request
 
         String newPlaceResponse = given().log().all().queryParam("key", "qaclick123").header("Content-Type", "application/json")
                 .body(Payload.AddPlace()).when().post("maps/api/place/add/json").then().assertThat().statusCode(200)
+
+                // If the Json file is on External location
+                //.body(new String (Files.readAllBytes(Paths.get("C:\\Users\\Ievgen\\Documents\\addPlace.json")))).when().post("maps/api/place/add/json").then().assertThat().statusCode(200)
                 .body("scope", equalTo("APP")).header("server", "Apache/2.4.18 (Ubuntu)").extract().response().asString();
 
         //System.out.println("Response :" + response);

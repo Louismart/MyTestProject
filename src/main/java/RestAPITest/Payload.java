@@ -52,5 +52,33 @@ public class Payload {
                 "}";
     }
 
+    public static String Addbook(String isbn, String aisle) {
+
+       String payload =  "{\n" +
+               "\n" +
+               "    \"name\":\"Learn Appium Automation with Java\",\n" +
+               "    \"isbn\": \""+isbn+"\",\n" +
+               "    \"aisle\": \""+aisle+"\",\n" +
+               "    \"author\": \"John foe\"\n" +
+               "}";
+       return payload;
+    }
+
+    public static String Addbook2() {
+
+        String payload = "{\n" +
+                "\n" +
+                "    \"name\":\"Learn Appium Automation with Java\",\n" +
+                "    \"isbn\": \"bczd\",\n" +
+                "    \"aisle\": \"22ghfd70\",\n" +
+                "    \"author\": \"John foe\"\n" +
+                "}";
+        return payload;
+
+
+    }
+
+
+
 
 }

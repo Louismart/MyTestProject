@@ -19,16 +19,9 @@ public class BaseTests {
 
         File resourcesDirectory = new File("src/main/resources");
          path = resourcesDirectory.getAbsolutePath();
-
-
-        baseDriver = new BaseDriver(WebDrivers.CHROME, 5);
-
-
+         baseDriver = new BaseDriver(WebDrivers.CHROME, 5);
         baseDriver.maximize();
     }
-
-
-
 
 
     @AfterClass

@@ -39,23 +39,48 @@ public class StaticDropdown {
     }
 
     @Test
-    public void testdropDownWithClickableButtons() {
+    public void testdropDownWithClickableButtons() throws InterruptedException {
 
-        WebElement clickDropdown = driver.findElement(By.id("divpaxinfo"));
-        clickDropdown.click();
+        driver.findElement(By.id("divpaxinfo")).click();
 
-        Select dropdown = new Select(clickDropdown);
+        Thread.sleep(500);
+        int i = 1;
+        while (i < 5) {
+            driver.findElement(By.id("hrefIncAdt")).click();
+            i++;
+        }
+        Thread.sleep(400);
+        driver.findElement(By.id("hrefIncChd")).click();
+        Thread.sleep(400);
+        driver.findElement(By.id("btnclosepaxoption")).click();
+
+        Assert.assertTrue(driver.findElement(By.id("divpaxinfo")).getText().contains("5 Adult, 1 Child")
+                ,"Verifying that Passengers element contains 5 Adult, 1 Child");
+
+    }
+
+    @Test
+    public void testDynamicDropDown() throws InterruptedException {
+
+        // //a[@value="MAA"] - Chennai xpath
+        // //a[@value="BLR"] - Bengaluru
+        // ctl00_mainContent_ddl_originStation1_CTXT
+        driver.findElement(By.id("ctl00_mainContent_ddl_originStation1_CTXT")).click();
+        driver.findElement(By.xpath("//a[@value='BLR']")).click(); //Selenium select by default first element from the left "FROM"
+        Thread.sleep(1000);
+        driver.findElement(By.xpath("(//a[@value='MAA'])[2]")).click(); // point out to second element in "TO"
 
 
     }
 
+
+
     @AfterTest
     public void closeAndQuit() {
+        driver.close();
+        if (driver != null) {
+            driver.quit();
 
-            if(driver != null)
-                driver.quit();
-             //   driver.close();
-
-
+        }
     }
 }

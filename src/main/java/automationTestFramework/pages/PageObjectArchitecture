@@ -1,7 +1,7 @@
 /*
 BaseElement{
 
-Consturtor:
+Constuctor:
 BaseElement(driver, waiter, locator){
 bla bla
 }

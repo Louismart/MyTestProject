@@ -69,7 +69,7 @@ public class StaticDropdown {
         Thread.sleep(500);
         int i = 1;
         while (i < 5) {
-            driver.findElement(By.id("hrefIncAdt")).click();
+            driver.findElement(By.id("hrefIncAdt")).click();  // click 4 times
             i++;
         }
         Thread.sleep(400);
@@ -94,10 +94,39 @@ public class StaticDropdown {
         //driver.findElement(By.xpath("(//a[@value='MAA'])[2]")).click(); incorrect XPATH practise   // point out to second element in "TO"
         driver.findElement(By.xpath("//div[@id='glsctl00_mainContent_ddl_destinationStation1_CTNR'] //a[@value='MAA']")).click(); //XPATH with parent indication
 
+    }
+
+    @Test
+
+    public void testCalendar() {
+
+        driver.findElements(By.xpath("//a[@class='ui-state-default.ui-state-highlight.ui-state-active']"));
+
+
+        //a[@class='ui-state-default.ui-state-highlight.ui-state-active']
 
     }
 
 
+    @Test
+    public void testCheckBoxAndCheckboxSize() {
+
+
+        if (!driver.findElement(By.xpath("//div[@id='ctl00_mainContent_SeniorCitizenDiv']")).isSelected()) {
+            driver.findElement(By.xpath("//div[@id='ctl00_mainContent_SeniorCitizenDiv']")).click();
+        }
+
+        if (driver.findElement(By.xpath("//div[@id='ctl00_mainContent_SeniorCitizenDiv']")).isSelected()) {
+            driver.findElement(By.xpath("//div[@id='ctl00_mainContent_SeniorCitizenDiv']")).click();
+        }
+
+        //count the number of checkboxes
+        int checkBoxCount = driver.findElements(By.cssSelector("input[type='checkbox']")).size();
+        Assert.assertFalse(driver.findElement(By.xpath("//div[@id='ctl00_mainContent_SeniorCitizenDiv']")).isSelected(), "If checkbox is not selected");
+        //Assert.assertTrue(!driver.findElement(By.xpath("//div[@id='ctl00_mainContent_SeniorCitizenDiv']")).isSelected(), "If checkbox is selected");
+        Assert.assertTrue(checkBoxCount > 0, "Check , if number of checkboxes gtreate than 0");
+
+    }
 
     @AfterTest
     public void closeAndQuit() {

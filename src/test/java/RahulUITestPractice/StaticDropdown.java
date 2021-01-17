@@ -161,17 +161,11 @@ public class StaticDropdown {
         Thread.sleep(800);
         //driver.findElement(By.
         // name("ControlGroupSearchView$AvailabilitySearchInputSearchView$DropDownListCurrency")).click();
-        driver.findElement(By.xpath("//select[@id='ControlGroupSearchView_AvailabilitySearchInputSearchView_DropDownListCurrency']")).click();
+        //driver.findElement(By.xpath("//select[@id='ControlGroupSearchView_AvailabilitySearchInputSearchView_DropDownListCurrency']")).click();
 
         driver.findElement(By.xpath("//input[@type= 'submit']")).click();  //Search button check
 
-
-
-
-
     }
-
-
     @Test
     public void testCheckBoxAndCheckboxSize() {
 

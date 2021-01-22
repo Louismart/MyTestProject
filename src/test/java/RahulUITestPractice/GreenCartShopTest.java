@@ -27,10 +27,10 @@ public class GreenCartShopTest {
     @Test
     public void selectProductsToBusket() {
 
-        String[] vegetableNames  = {"Cucumber - 1 Kg", "Brocolli - 1 Kg", "Beetroot - 1 Kg"}; // declare Array with the list of vegetables
+        String[] vegetableNames  = {"Cucumber - 1 Kg", "Brocolli - 1 Kg", "Beetroot - 1 Kg"}; // declare Array with the list of needed vegetables
 
        //Click Cucumber using list of elements, because have no unique locator there
-        List<WebElement> products = driver.findElements(By.cssSelector("h4.product-name")); // generic element for all product names
+        List<WebElement> products = driver.findElements(By.cssSelector("h4.product-name")); // generic element for all 30 products
         for (int i = 0; i < products.size(); i++) {
             String name = products.get(i).getText();
             //check weather name you extracted is present in array or not
@@ -46,33 +46,46 @@ public class GreenCartShopTest {
     }
 
     @Test
-    public void selectProductToBusket2() {
+    public void selectProductToBusketAndProceedToCheckout() throws InterruptedException {
         //Using right unique names, without -1 kg
-
-        String[] itemsNeeded = {"Cucumber", "Brocolli", "Beetroot"}; // declare Array with the list of vegetables
-        List<WebElement> products = driver.findElements(By.cssSelector("h4.product-name")); // generic element for all product names
+        int j = 0;
+        String[] itemsNeeded = {"Cucumber", "Brocolli", "Beetroot", "Tomato"}; // declare Array with the list of vegetables
+        List<WebElement> products = driver.findElements(By.cssSelector("h4.product-name")); // generic element for all 30 product
         for (int i = 0; i < products.size(); i++) {
 
-            //need to split Brocolli |- 1 kg|
+            //need to split Brocolli |- 1 kg|, using split method
             //to Brocolli,  1 kg
             String[] name = products.get(i).getText().split("-"); //using .split , variable was changed to Array
-            String formattedName = name[0].trim();
+            String formattedName = name[0].trim(); //delete Space "-",by trim
             /* format it into get actual vegetables name
             convert Array into ArrayList for easy search
             check, whether name you extracted is present in ArrayList or not */
             List<String> itemsNeededList = Arrays.asList(itemsNeeded);
 
+
             if(itemsNeededList.contains(formattedName)) {
+                j++;
                 //click to Add to Cart
-                driver.findElements(By.xpath("//button[text()='ADD TO CART']")).get(i).click();
+                Thread.sleep(1000);
+                driver.findElements(By.xpath("//div[@class='product-action']/button")).get(i).click();
                 //3 times
+                if (j==itemsNeeded.length) {
+                    break;
+                }
 
             }
-
-
-
-
         }
+        /*  Wrap all find elements into
+        after products would be added to cart,
+        proceed to checkoutButton
+        In the field Enter promo code - input rahulshettyacademy, press Apply button
+        verify if Promo code applied succsessfully! text is present
+        Place order button
+
+
+        */
+
+
     }
 
     @AfterTest

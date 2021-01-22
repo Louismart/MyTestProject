@@ -7,6 +7,8 @@ import org.openqa.selenium.By;
 
 public class CustomerStartPage extends BaseStartPage {
 
+    //All elements form the page
+
     private static By searchFieldLocator = By.id("search-input");
 
     private static By searchDropDownLocator = By.id("search-column");
@@ -17,14 +19,20 @@ public class CustomerStartPage extends BaseStartPage {
 
     private static By tableResumeLocator = By.id("table-resume");
 
+    private static By clearButtonLocator = By.id("clear-button");
+
+
+    //class constructor
     public CustomerStartPage(BaseDriver baseDriver, String link) {
         super(baseDriver, link);
     }
 
+    //return element to BasePage , used to in Test
     public TextInputString search() {
         return element(TextInputString.class, searchFieldLocator);
     }
 
+    //return element to BasePage , used to in Test
     public PageDropDown dropDown() {
         return element(PageDropDown.class, searchDropDownLocator);
     }
@@ -41,4 +49,12 @@ public class CustomerStartPage extends BaseStartPage {
         return element(TextLabelElement.class,  tableResumeLocator);
     }
 
-}
+    public Button clearButton() {
+        return element(Button.class, clearButtonLocator);
+    }
+
+
+    }
+
+
+

@@ -15,26 +15,29 @@ public abstract class BaseElement {
     protected WebElement webElement;
     private By locator;
 
+    //class constructor with initiated variables
     public BaseElement(BaseDriver baseDriver, WebElement webElement, By locator) {
         this.baseDriver = baseDriver;
         this.webElement = webElement;
         this.locator = locator;
 
     }
-
+    //getter
     public WebElement getWebElement() {
         return webElement;
     }
 
+    // calling in Test and return already wrapped waiter
     public String visibleText() {
         return baseDriver.getBaseWaiter().getWait().until(ExpectedConditions.visibilityOf(webElement)).getText();
     }
-
+    //Ipmlements findElement + waiters.
     public <T extends BaseElement> T findElement(Class<T> clazz, By locator) {
         WebElement webElement = baseDriver.getBaseWaiter().getWait().until(ExpectedConditions.presenceOfNestedElementLocatedBy(getWebElement(), locator));
         return createElement(clazz, webElement, locator);
     }
 
+    //recieving and implements list of elements from (PageDropDown/buttons, Table/row, Row/cells)
     public <T extends BaseElement> List<T> findElements(Class<T> clazz, final By locator) {
         List<WebElement> elements = baseDriver.getBaseWaiter().getWait().until(ExpectedConditions.visibilityOfNestedElementsLocatedBy(getWebElement(), locator));
         if (elements.size() > 0) {

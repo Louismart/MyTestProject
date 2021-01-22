@@ -1,44 +1,36 @@
 import Model.Pages.CustomerStartPage;
-import framework.driver.BaseDriver;
-import framework.driver.WebDrivers;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import java.io.File;
+public class Tests extends BaseTests {
 
-public class Tests {
-    private BaseDriver baseDriver;
-    private CustomerStartPage testedPage;
-
-    @BeforeSuite
-    public void beforeSuite() {
-
-        File resourcesDirectory = new File("src/main/resources");
-        String path = resourcesDirectory.getAbsolutePath();
+    protected CustomerStartPage testedPage;
 
 
-        baseDriver = new BaseDriver(WebDrivers.CHROME, 5);
+    @BeforeClass
+    public void customerPageInitialization() {
+        testedPage = new CustomerStartPage(baseDriver, path + "\\ui\\index.html");
 
-
-        testedPage = new CustomerStartPage(baseDriver,  path + "\\ui\\index.html");
-        baseDriver.maximize();
     }
 
+    @AfterMethod
+    public void afterMethod() {
+        testedPage.search().clearString();
+    }
 
-    @BeforeTest
-    public void beforeTest() {
+    @BeforeMethod
+    public void init() {
         testedPage.openUrl();
     }
 
-//1. Search for Customer by Name
+
+    //1. Search for Customer by Name
     @Test
     public void userIsAbleToSearchByName() {
 
         String searchRequest = "Bon";
-        testedPage.search().clearString().sendString(searchRequest);
-
+        testedPage.search().sendString(searchRequest);
         String searchName = testedPage.customerTable().rows().get(0).cells().get(1).visibleText();
-
         Assert.assertTrue(searchName.contains(searchRequest));
     }
 
@@ -47,12 +39,11 @@ public class Tests {
     public void userIsAbleToSearchByNameMatchCase() {
 
         String searchRequest = "bon";
-        testedPage.search().clearString().sendString(searchRequest);
+        testedPage.search().sendString(searchRequest);
         testedPage.checkbox().check();
-
         String tableResult = testedPage.tableResume().visibleText();
-
         Assert.assertTrue(tableResult.startsWith("Showing 0"));
+
     }
 
     //3. Search for Customer by City
@@ -60,27 +51,56 @@ public class Tests {
     public void userIsAbleToSearchCustomerByCity() {
 
         String searchCity = "Belfast";
-        testedPage.search().clearString().sendString(searchCity);
+        testedPage.search().sendString(searchCity);
         testedPage.dropDown().selectByText("City");
-
         String tableCityResult = testedPage.customerTable().rows().get(0).cells().get(3).visibleText();
-
         Assert.assertTrue(tableCityResult.contains(searchCity));
+
+
+    }
+
+    @Test
+    public void userIsAbleToSearchCustomerByMail() {
+
+        String searchEmail = "bond";
+        testedPage.search().sendString(searchEmail);
+        testedPage.dropDown().selectByText("Email");
+        String tableEmailResult = testedPage.customerTable().rows().get(0).cells().get(2).visibleText();
+        Assert.assertTrue(tableEmailResult.contains(searchEmail));
+
+    }
+
+    @Test
+    public void userIsAbleClickFiltersButtonWhenSearchResultnIsNotExist() {
+
+        String searchInvalidText = "xxx";
+        testedPage.search().sendString(searchInvalidText);
+        String tableResumeResult = testedPage.tableResume().visibleText();
+        Assert.assertTrue(tableResumeResult.startsWith("Showing 0 of 3"));
+        testedPage.clearButton().click();
+        int tableRowsCount = testedPage.customerTable().rows().size();
+        Assert.assertTrue(tableRowsCount > 0);
+
+
+    }
+
+    @Test
+    public void userIsAbleToSearcNameM() {
+
+        String searchRequest = "bon";
+        testedPage.search().sendString(searchRequest);
+        testedPage.checkbox().check();
+        String tableResult = testedPage.tableResume().visibleText();
+        Assert.assertTrue(tableResult.startsWith("Showing 0"));
+
+
     }
 
 
 
-    @AfterTest
-    public void afterTest() {
-
-    }
-
-    @AfterSuite
-    public void afterSuite() {
-        baseDriver.getWebDriver().close();
-    }
 
 
 
-    }
+}
+
 

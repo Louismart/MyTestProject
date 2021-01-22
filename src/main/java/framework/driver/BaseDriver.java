@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BaseDriver {
+    //class variables
 
     private WebDriver webDriver;
 
@@ -19,15 +20,15 @@ public class BaseDriver {
 
     private  int defaultWaitIntSeconds;
 
-
+// Class constructor
     public BaseDriver(WebDrivers driver, int defaultWaitIntSeconds) {
         this.defaultWaitIntSeconds = defaultWaitIntSeconds;
-        this.webDriver = DriverFactory.GetDriver(driver);
+        this.webDriver = DriverFactory.GetDriver(driver);  // refer to driverFactory
         this.baseWaiter = new BaseWaiter(new WebDriverWait(webDriver, defaultWaitIntSeconds));
 
 
     }
-
+//Getters in order to call them if it needs
     public WebDriver getWebDriver() {
         return webDriver;
     }
@@ -36,11 +37,12 @@ public class BaseDriver {
         return baseWaiter;
     }
 
+////   Wrapper which return element + waiter, method inplementation at the bottom of this class
     public <T extends BaseElement> T findElement(Class<T> clazz, By locator){
         WebElement webElement = baseWaiter.getWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
         return createElement(clazz, webElement, locator);
     }
-
+// Wrapper which return list of elements + waiter
     public  <T extends  BaseElement> List<T> findElements(Class<T> clazz, final By locator){
         List<WebElement> elements = baseWaiter.getWait().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
         if (elements.size()> 0)
@@ -55,6 +57,7 @@ public class BaseDriver {
         return null;
     }
 
+    //create element
     private <T extends BaseElement> T createElement(Class<T> clazz, WebElement webElement, By locator){
         try {
             return clazz.getConstructor(BaseDriver.class, WebElement.class, By.class)
@@ -70,8 +73,16 @@ public class BaseDriver {
         }
         return null;
     }
-
-    public void maximize(){
+//maximize browser window
+    public void maximize() {
         webDriver.manage().window().maximize();
+    }
+
+
+    public void closeAndQuit(){
+        webDriver.close();
+        if(webDriver != null){
+            webDriver.quit();
+        }
     }
 }

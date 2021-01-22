@@ -8,16 +8,20 @@ import java.util.List;
 
 public class PageDropDown extends BaseElement {
 
+    //locator option for: Id, Name, Email, City
     private static By optionsLocator = By.xpath("option");
 
+    //take parameters from BaseElement
     public PageDropDown(BaseDriver baseDriver, WebElement webElement, By locator) {
         super(baseDriver, webElement, locator);
     }
 
+    //list of buttons within option locator
     public List<Button> options() {
         return findElements(Button.class, optionsLocator);
     }
 
+    //method describes wrapper with visibleText+ waiters implementation  used to in test
     public void selectByText(String text) {
         webElement.click();
         Button option = null;

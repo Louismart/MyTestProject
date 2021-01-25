@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -16,6 +17,7 @@ import java.util.List;
 public class GreenCartShopTest {
 
     private ChromeDriver driver;
+
 
     @BeforeTest
     public void beforeTests() {
@@ -53,7 +55,8 @@ public class GreenCartShopTest {
         WebDriverWait wait = new WebDriverWait(driver, 20);
         int j = 0;
         String[] itemsNeeded = {"Cucumber", "Brocolli", "Beetroot", "Tomato"}; // declare Array with the list of vegetables
-        List<WebElement> products = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector("h4.product-name")));  // driver.findElements(By.cssSelector("h4.product-name")); // generic element for all 30 product
+        List<WebElement> products = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector("h4.product-name")));  // generic element for all 30 product
+
         for (int i = 0; i < products.size(); i++) {
 
             //need to split Brocolli |- 1 kg|, using split method
@@ -65,13 +68,14 @@ public class GreenCartShopTest {
             check, whether name you extracted is present in ArrayList or not */
             List<String> itemsNeededList = Arrays.asList(itemsNeeded);
 
-
             if(itemsNeededList.contains(formattedName)) {
                 j++;
                 //click to Add to Cart
+                Assert.assertTrue(itemsNeededList.contains(formattedName), "Verifying that itemsNeededList contains our needed products");
 
-                List<WebElement> addToCartButton = driver.findElements(By.xpath("//div[@class='product-action']/button"));
+                List<WebElement> addToCartButton = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[@class='product-action']/button")));
                 addToCartButton.get(i).click();
+                Assert.assertTrue(addToCartButton.size() > 0);
                 //3 times
                 if (j==itemsNeeded.length) {
                     break;
@@ -79,17 +83,40 @@ public class GreenCartShopTest {
 
             }
         }
+        WebElement busketButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@class='cart-icon']/img")));
+        busketButton.click();
+        WebElement proceedToCheckoutButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='action-block']/button")));
+        proceedToCheckoutButton.click();
+        String promoKey = "rahulshettyacademy";
 
-        //div[@class='action-block']/button
+        WebElement promocode = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@class='promoCode']")));
+        promocode.sendKeys(promoKey);
+        //Assert.assertTrue(promocode.contains("rahulshettyacademy"));
+
+        WebElement applyPromo = wait.until(ExpectedConditions.elementToBeClickable(By.className("promoBtn")));
+        applyPromo.click();
+
+        WebElement codeApplied = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(),'Code applied ..!')]")));//driver.findElement(By.xpath("//span[contains(text(),'Code applied ..!')]"));
+        Assert.assertTrue(true, codeApplied.getAttribute("Code applied ..!"));
+        Assert.assertFalse(false, codeApplied.getAttribute("Invalid code ..!") ); //for negative test
+        Assert.assertFalse(false, codeApplied.getAttribute("Empty code ..!") ); //for negative test
+
+        WebElement placeOrder = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Place Order')]")));
+        placeOrder.click();
+
+
+
+
 
         /*  Wrap all find elements into Explicit Wait
         after products would be added to cart - done
         proceed to checkoutButton -
         In the field Enter promo code - input rahulshettyacademy, press Apply button
-        verify if Promo code applied succsessfully! text is present
-        Place order button
-
-
+        verify if Promo code applied successfully! text is present
+        Place order button  - done
+        choose country - done
+        Agree checkbox, Assert
+        Proceed button, Assert
         */
 
 
@@ -97,11 +124,11 @@ public class GreenCartShopTest {
 
     @AfterTest
     public void closeAndQuit() {
-        driver.close();
-        if (driver != null) {
-            driver.quit();
-
-        }
-    }
+//        driver.close();
+//        if (driver != null) {
+//            driver.quit();
+//
+//        }
+      }
 
 }

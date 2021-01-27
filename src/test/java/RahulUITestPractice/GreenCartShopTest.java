@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
@@ -104,9 +105,34 @@ public class GreenCartShopTest {
         WebElement placeOrder = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Place Order')]")));
         placeOrder.click();
 
+        //Choose country dropdown
+        String searchCountryValue = "Poland";
+        WebElement countryDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@id='root']//select")));
+        countryDropdown.click();
+        Select dropdown = new Select(countryDropdown);
+        dropdown.selectByValue("Poland");
+        String dropdownValue = dropdown.getFirstSelectedOption().getText();
+        Assert.assertTrue(dropdownValue.contains(searchCountryValue));
 
+        //Agree checkbox
+        if (!driver.findElement(By.className("chkAgree")).isSelected()) {
+            WebElement agreeCheckbox = wait.until(ExpectedConditions.elementToBeClickable(By.className("chkAgree")));
+            agreeCheckbox.click();
+        }
 
-
+        if (driver.findElement(By.className("chkAgree")).isSelected()) {
+            WebElement agreeCheckbox = wait.until(ExpectedConditions.elementToBeClickable(By.className("chkAgree")));
+            //agreeCheckbox.click();
+        }
+        //count the number of checkboxes
+        List<WebElement> listOfCheckboxElements =  wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.className("chkAgree")));
+        Assert.assertFalse(!driver.findElement(By.className("chkAgree")).isSelected(), "If checkbox is not selected");
+        //Assert.assertTrue(!driver.findElement(By.xpath("//div[@id='ctl00_mainContent_SeniorCitizenDiv']")).isSelected(), "If checkbox is selected");
+        Assert.assertTrue(listOfCheckboxElements.size() > 0, "Check , if number of checkboxes greater than 0");
+        //Click on proceed button
+        WebElement proceedButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Proceed')]")));
+        proceedButton.click();
+    }
 
         /*  Wrap all find elements into Explicit Wait
         after products would be added to cart - done
@@ -120,15 +146,13 @@ public class GreenCartShopTest {
         */
 
 
-    }
-
     @AfterTest
     public void closeAndQuit() {
-//        driver.close();
-//        if (driver != null) {
-//            driver.quit();
-//
-//        }
+        driver.close();
+        if (driver != null) {
+            driver.quit();
+
+        }
       }
 
 }

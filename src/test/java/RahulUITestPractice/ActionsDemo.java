@@ -1,9 +1,13 @@
 package RahulUITestPractice;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -22,10 +26,23 @@ public class ActionsDemo {
 
     @Test
     public void amazonMouseActionsTest() {
+        WebDriverWait wait = new WebDriverWait(driver, 20);
+        //WebElement originDestinationLocator = wait.until
         Actions a = new Actions(driver);
-        WebElement move = driver.findElementByCssSelector("#nav-link-accountList");
+        WebElement accountAndListDropDownLocator = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#nav-link-accountList")));
         //Move to specific element
-        a.moveToElement(move).build().perform();
+        a.moveToElement(accountAndListDropDownLocator).build().perform();
+
+        WebElement searchFieldLocator = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#twotabsearchtextbox")));
+
+        a.moveToElement(searchFieldLocator).click()
+                .keyDown(Keys.LEFT_SHIFT)
+                .sendKeys("hello")
+                .build()
+                .perform();
+        a.moveToElement(accountAndListDropDownLocator).contextClick().build().perform();  //click right mouse button
+
+
 
     }
 }

@@ -11,6 +11,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import java.util.Set;
+
 public class ActionsDemo {
 
     private ChromeDriver driver;
@@ -20,7 +22,8 @@ public class ActionsDemo {
 
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-        driver.get("https://www.amazon.com/");
+        //driver.get("https://www.amazon.com/"); // for test amazon
+        driver.get("https://rahulshettyacademy.com/loginpagePractise/#");  // for windows handles test
         driver.manage().window().maximize();
     }
 
@@ -42,6 +45,14 @@ public class ActionsDemo {
                 .perform();
         a.moveToElement(accountAndListDropDownLocator).contextClick().build().perform();  //click right mouse button
 
+
+
+    }
+    @Test
+    public void getWindowsHandlesTest() {
+
+        driver.findElement(By.cssSelector(".blinkingText")).click();
+        Set<String> windows = driver.getWindowHandles(); //[parentId, childId]
 
 
     }

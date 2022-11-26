@@ -83,7 +83,7 @@ public class APITest {
         System.out.println(count);
 
         //Print purchase amount
-        int totalAmount = js.getInt("dashboard.purchaseAmount");
+        int totalAmount = js.getInt(" dashboard.purchaseAmount");
         System.out.println(totalAmount);
 
         //Print title of the first course

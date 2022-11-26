@@ -18,8 +18,8 @@ public class Row extends BaseElement {
         super(baseDriver, webElement, locator);
 
     }
-// return list of elements from cells refered to TextLableElement class
-    public List<TextLabelElement> cells(){
+// return list of elements from cells referred to TextLableElement class
+    public List<TextLabelElement> cells() {
         return findElements(TextLabelElement.class, cellsLocator);
     }
 }

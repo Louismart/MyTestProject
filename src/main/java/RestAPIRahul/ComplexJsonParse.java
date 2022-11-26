@@ -1,6 +1,4 @@
-package RestAPITest;
-
-import io.restassured.path.json.JsonPath;
+package RestAPIRahul;
 
 public class ComplexJsonParse {
 

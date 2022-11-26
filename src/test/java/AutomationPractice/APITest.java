@@ -1,15 +1,13 @@
 package AutomationPractice;
 
-import RestAPITest.Payload;
-import RestAPITest.ReusableMethods;
+import RestAPIRahul.Payload;
+import RestAPIRahul.ReusableMethods;
 import io.restassured.path.json.JsonPath;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import static io.restassured.RestAssured.*;
 import static io.restassured.RestAssured.given;

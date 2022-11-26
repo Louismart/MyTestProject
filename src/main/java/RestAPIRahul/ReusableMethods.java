@@ -1,4 +1,4 @@
-package RestAPITest;
+package RestAPIRahul;
 
 import io.restassured.path.json.JsonPath;
 

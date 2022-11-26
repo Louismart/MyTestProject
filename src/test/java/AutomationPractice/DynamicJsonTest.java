@@ -1,9 +1,8 @@
 package AutomationPractice;
 
-import RestAPITest.Payload;
-import RestAPITest.ReusableMethods;
+import RestAPIRahul.Payload;
+import RestAPIRahul.ReusableMethods;
 import io.restassured.path.json.JsonPath;
-import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;

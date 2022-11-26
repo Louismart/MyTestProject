@@ -18,6 +18,7 @@ public class EndToEndBookingTest {
 
     private ChromeDriver driver;
 
+
     @BeforeTest
     public void beforeTests() {
 
@@ -55,7 +56,7 @@ public class EndToEndBookingTest {
         }
     }
         @Test
-    public void passengerDropdownTest() throws InterruptedException {
+    public void passengerDropdownTest() {
 
             //Adult dropdown
             WebDriverWait wait = new WebDriverWait(driver, 20);

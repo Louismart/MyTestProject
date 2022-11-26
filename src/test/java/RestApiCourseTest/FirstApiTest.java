@@ -12,7 +12,7 @@ import static io.restassured.RestAssured.when;
 /*
 spec for this API under test https://punkapi.com/documentation/v2
  */
-public class FirstApiTest {
+public class firstApiTest {
 
     private static RequestSpecification requestSpec;
     private static final int PER_PAGE = 80;

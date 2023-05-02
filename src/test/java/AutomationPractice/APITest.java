@@ -39,7 +39,7 @@ public class APITest {
 
                 // If the Json file is on External location
                 //.body(new String (Files.readAllBytes(Paths.get("C:\\Users\\Ievgen\\Documents\\addPlace.json")))).when().post("maps/api/place/add/json").then().assertThat().statusCode(200)
-                .body("scope", equalTo("APP")).header("server", "Apache/2.4.18 (Ubuntu)").extract().response().asString();
+                .body("scope", equalTo("APP")).header("server", "Apache/2.4.41 (Ubuntu)").extract().response().asString();
 
         //System.out.println("Response :" + response);
         JsonPath js = ReusableMethods.newPlaceResponse(newPlaceResponse);

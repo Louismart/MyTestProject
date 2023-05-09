@@ -19,18 +19,13 @@ public class FirstApiTest {
 
     @BeforeClass
     public static void createRequestSpecification() {
-    /*    requestSpec = new RequestSpecBuilder().
+          requestSpec = new RequestSpecBuilder().
                 setBaseUri("https://api.punkapi.com").
                 setBasePath("v2").
                 setAccept(ContentType.TEXT).
                 setBody("test").// Works for POST, PUT and DELETE requests, here for GET just example
-                build();  */
-        requestSpec = new RequestSpecBuilder().
-                setBaseUri("https://country-service.wremitprd.com/api").
-                addHeader("Authorization", "f8#vZ0Hiu%JLD0KnIz@MWZOQN36D6DGBINGiTcX5MugfCoeTn9Z").
-                setAccept(ContentType.JSON).
                 build();
-
+        
     }
 
     //https://api.punkapi.com/v2/beers?page=2&per_page=80
@@ -164,14 +159,5 @@ public class FirstApiTest {
                 then().log().all().
                 statusCode(200);
     }
-    @Test
-    public void CountriesListTest() {
-        given().
-                spec(requestSpec).
-                when().get("Countries").
-                then().
-                log().body().
-                statusCode(200);
     }
-}
 

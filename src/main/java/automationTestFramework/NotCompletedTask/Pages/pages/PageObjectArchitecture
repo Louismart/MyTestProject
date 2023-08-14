@@ -1,0 +1,65 @@
+/*
+BaseElement{
+
+Constructor:
+BaseElement(driver, waiter, locator){
+bla bla
+}
+
+public boolean isVisible(){
+try{
+            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        }
+        catch (TimeoutException ex){
+            return  false;
+        }
+        return true;
+}
+}
+
+TextLabel extends BaseElement
+
+consrtuctor
+public TexxLabel(driver, waiter, locator){
+super(driver, waiter, locator)
+}
+
+}
+PageObjXXX{
+public TextLabel lableKakojto;
+public TextLabel lableKakojto2;
+
+locators
+loc1d
+loc12
+loc13
+loc14
+
+Constructor
+PageObjXxx(driver, i chto nado)
+
+public TextLabel getLabelKakojto() {
+labelkakojto = new TextLabel(driver, labelKakojtoLocator)
+}
+public TextLabel getLabelKakojto() {
+labelkakojto2 = new TextLabel(driver, labelKakojtoLocator2)
+}
+
+public boolean IsLoaded(){
+return lableKakojto.isVisible() && return lableKakojto.isVisible() &&
+lableKakojto2.IsVisible()
+}
+
+@Test
+sdjkfhailsugdhas(){
+PageObjXxx xxx = new PageObjXxx(driver, i chto nado)
+Assert.asssertTrue(xxx.IsLoaded());
+}
+WebElement bestSellers = driver.findElement(CustomerPage.bestSellersButtonLocator);
+        boolean value2 = false;
+
+        if (driver.findElements(CustomerPage.bestSellersButtonLocator).size() > 0) {
+            value2 = true;
+        }
+        bestSellers.click();
+        System.out.println(value2);

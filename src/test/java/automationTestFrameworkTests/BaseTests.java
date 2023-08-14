@@ -1,8 +1,9 @@
 package automationTestFrameworkTests;
 
-import automationTestFramework.repository.driver.BaseDriver;
-import automationTestFramework.repository.driver.WebDrivers;
+import automationTestFramework.actualFramework.driver.BaseDriver;
+import automationTestFramework.actualFramework.driver.WebDrivers;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 
 import java.io.File;
@@ -17,13 +18,13 @@ public class BaseTests {
     public void beforeClass() {
 
         File resourcesDirectory = new File("src/main/resources");
-         path = resourcesDirectory.getAbsolutePath();
-         baseDriver = new BaseDriver(WebDrivers.CHROME, 5);
+        path = resourcesDirectory.getAbsolutePath();
+        baseDriver = new BaseDriver(WebDrivers.CHROME, 5);
         baseDriver.maximize();
     }
 
 
-    @AfterClass
+    @AfterSuite
     public void afterSuite() {
         baseDriver.closeAndQuit();
     }

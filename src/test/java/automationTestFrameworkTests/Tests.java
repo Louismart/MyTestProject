@@ -1,6 +1,6 @@
 package automationTestFrameworkTests;
 
-import automationTestFramework.model.Pages.CustomerStartPage;
+import automationTestFramework.NotCompletedTask.Pages.pages.model.CustomerStartPage;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
@@ -15,14 +15,14 @@ public class Tests extends BaseTests {
 
     }
 
-    @AfterMethod
-    public void afterMethod() {
-        testedPage.search().clearString();
-    }
-
     @BeforeMethod
     public void init() {
         testedPage.openUrl();
+    }
+
+    @AfterMethod
+    public void afterMethod() {
+        testedPage.search().clearString();
     }
 
 
@@ -97,11 +97,6 @@ public class Tests extends BaseTests {
 
 
     }
-
-
-
-
-
 
 }
 

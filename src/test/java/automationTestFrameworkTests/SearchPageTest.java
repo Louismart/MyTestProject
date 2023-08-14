@@ -1,6 +1,6 @@
 package automationTestFrameworkTests;
 import automationTestFramework.Variables;
-import automationTestFramework.pages.CustomerPage;
+import automationTestFramework.NotCompletedTask.Pages.pages.CustomerPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
